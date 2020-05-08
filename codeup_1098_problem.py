@@ -33,7 +33,7 @@ w, h = input().split()
 
 w = int(w)
 h = int(h)
-array = [[0]*w]*h
+array = [[0 for col in range(h)] for row in range(w)]
 
 num = int(input())
 result  = [[]*4]*num
