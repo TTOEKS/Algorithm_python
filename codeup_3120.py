@@ -57,3 +57,13 @@ while(gap!=0):
     print(gap)
     
 print(cnt)
+
+
+'''
+Exam)
+input:
+7 34
+
+output:
+5
+'''
