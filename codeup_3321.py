@@ -55,3 +55,18 @@ for i in range(num):
     else:
         break
 print(result_rate)
+
+
+
+'''
+Exam)
+input:
+3
+12 2
+200
+50
+300
+100
+
+output:
+37
