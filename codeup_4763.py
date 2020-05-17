@@ -1,5 +1,5 @@
 ## 원숭이들을 두 개의 우리에 합사해라
-## Program ID codeup_4763_problem.py
+## Program ID codeup_4763.py
 
 
 '''
