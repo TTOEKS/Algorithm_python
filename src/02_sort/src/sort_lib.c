@@ -1,7 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
+#include "sort_lib.h"
 
 void display_array(int *array, int len) {
   int i = 0;
@@ -23,7 +20,6 @@ void switch_value(int *elem1, int *elem2) {
 void bubble_sort(int *array, int len) {
   int i, j, tmp;
 
-  printf("### Bubble Sort ###\n");
   for (i = len; i > -1; i--) {
     for (j = 0; j < i - 1; j++) {
       if (array[j] > array[j + 1]) {
@@ -36,7 +32,6 @@ void bubble_sort(int *array, int len) {
 void select_sort(int *array, int len) {
   int i, j, min, min_idx;
 
-  printf("### Select Sort ###\n");
   for (i = 0; i < len; i++) {
     min = array[i];
     min_idx = i;
@@ -54,7 +49,11 @@ void select_sort(int *array, int len) {
 void insert_sort(int *array, int len) {
   int i, j, key;
 
-  printf("### Insert Sort ###\n");
+  if (len == 2) {
+    bubble_sort(array, len);
+    return;
+  }
+
   for (i = 1; i < len; i++) {
     key = array[i];
     for (j = i; j > 0; j--) {
@@ -67,76 +66,66 @@ void insert_sort(int *array, int len) {
   }
 }
 
-
 void quick_sort(int *array, int left, int right) {
-  int i = left, j = right, pivot;
+  int pivot = left;
+  int i = left + 1, j = right;
 
-  if (i > j)
+  if (right <= left)
     return;
 
-  if (i == 0) 
-    i++;
+  while (i <= j) {
+    while (array[i] < array[pivot] && i <= j)  i++;
+    while (array[j] > array[pivot] && j >= i)  j--;
 
-
-  pivot = (int)(left + right)/2;
-  switch_value(&array[pivot], &array[0]);
-
-  while (i < j) {
-    while (array[0] > array[i])  i++;
-    while (array[0] < array[j])  j--;
-
-    if (i <= j)
+    if (i <= j) 
       switch_value(&array[i++], &array[j--]);
   }
+  switch_value(&array[j], &array[pivot]);
 
-  switch_value(&array[0], &array[j]);
-  quick_sort (array, left, j - 1);
-  quick_sort (array, j + 1, right);
+  quick_sort(array, left, j - 1);
+  quick_sort(array, j + 1, right);
+}
+
+void merge_for_merge_sort(int *array, int left, int mid, int right) {
+  int i, j, k;
+  int sorted_array[1024] = {0, };
+
+  k = left;  i = left; j = mid + 1;
+
+  while (i <= mid && j <= right) {
+    if (array[i] <= array[j]) {
+      sorted_array[k++] = array[i++];
+    }
+    else {
+      sorted_array[k++] = array[j++];
+    }
+  }
+
+  if (i <= mid) {
+    for (; i <= mid; i++)  {
+      sorted_array[k++] = array[i];
+    }
+  } else {
+    for (; j <= right; j++) {
+      sorted_array[k++] = array[j];
+    }
+  }
+
+  for (i = left; i <= right; i++) 
+    array[i] = sorted_array[i];
 }
 
 void merge_sort(int *array, int left, int right) {
-  int i = left, j = right, mid;
-  
+  int mid;
+
   if (left >= right)
     return;
 
-  mid = (i + j) / 2;
+  mid = (left + right) / 2;
 
   merge_sort(array, left, mid);
   merge_sort(array, mid + 1, right); 
-
-  int count = right - left + 1;
-  int sub_left_count = count / 2;
-  int sub_right_count = count - sub_left_count;
-
-  int sub_left[sub_left_count];
-  int sub_right[sub_right_count];
-
-
-  i = 0; j = 0;
-  for (; i < sub_left_count; i++) {
-    sub_left[i] = array[left + i + j];
-  }
-
-
-  for (; j < sub_right_count; j++) {
-    sub_right[j] = array[left + i + j];
-  }
-
-  int k = left;
-  i = 0; j = 0;
-  while (i < sub_left_count && j < sub_right_count) {
-    if (sub_left[i] <= sub_right[j])
-      array[k++] = sub_left[i++];
-    else
-      array[k++] = sub_right[j++];
-  }
-
-  for (; i < sub_left_count; i++) 
-    array[k++] = sub_left[i];
-
-  for (; j < sub_right_count; j++) 
-    array[k++] = sub_right[j];
+  merge_for_merge_sort(array, left, mid, right);
 }
 
 void display_heap(int *array, int len) {
@@ -172,44 +161,50 @@ void heapify(int *array, int len) {
 
 void heap_sort(int *array, int len)
 {
-  int *heap_array;
+  int heap_array[1024];
+  int *heap_ptr;
   int i;
 
-  heap_array = malloc(sizeof(int) * len);
+  heap_ptr = heap_array;
   for (i = 0; i < len; i++)
     heap_array[i] = array[i];
 
   for (i = 0; i < len; i++) {
-    heapify(heap_array, len - i);
-    array[i] = *heap_array++;
+    heapify(heap_ptr, len - i);
+    array[i] = *heap_ptr++;
+  }
+}
+
+void insert_sort_with_gap(int *array, int len, int gap) {
+  int i, j, key;
+
+  for (i = gap; i < len; i = i + gap) {
+    key = array[i];
+    for (j = i; j > 0; j = j - gap) {
+      if (key < array[j - gap])
+        array[j] = array[j - gap];
+      else
+        break;
+    }
+    array[j] = key;
   }
 }
 
 void shell_sort(int *array, int len) {
-  int k = len / 2;
-  int round = 0;
+  int gap = len / 2;
 
-  while (k != 0) {
-    if (k % 2 == 0)
-      k++;
+  while (gap != 0) {
+    if (gap % 2 == 0)
+      gap++;
 
-    while (round + k <= len) {
-      insert_sort(array + round, k);
-      round++;
-    }
+    insert_sort_with_gap(array, len, gap);
 
-    if (k == 1)
+    if (gap == 1)
       return ;
 
-    k /= 2;
+    gap /= 2;
   }
 }
-
-typedef struct _radix_queue {
-  int bucket[128];
-  int radix;
-  int count;
-} radix_queue;
 
 int radix_value(int value, int radix) {
   int tmp;
@@ -217,7 +212,6 @@ int radix_value(int value, int radix) {
   tmp = value / pow(10, radix);
   return tmp % 10;
 }
-
 
 void radix_enqueue(radix_queue *queue, int value) {
   int count = queue->count;
@@ -242,7 +236,7 @@ int flush_radix(radix_queue *queue, int *array) {
 void radix_sort(int *array, int len) {
   radix_queue queue[10];
   int i, j, rc, tmp, round = 0;
-  int loop = 2;
+  int loop = 3;
   int *pos;
 
   for (i = 0; i < 10; i++) {
@@ -294,40 +288,5 @@ void radix_sort(int *array, int len) {
     round++;
   }
 
-  }
-
-int main(int argc, char **argv)
-{
-  int test_array[10] = {3, 1, 2, 5, 7, 9, 3, 4, 5, 10};
-  printf("Hello World\n");
-
-  display_array(test_array, 10);
-
-  // printf("### Insert Sort ###\n");
-  // bubble_sort(test_array, 10);
-
-  // printf("### Insert Sort ###\n");
-  // select_sort(test_array, 10);
-
-  // printf("### Insert Sort ###\n");
-  // insert_sort(test_array, 10);
-
-  // printf("### Quick Sort ###\n");
-  // quick_sort(test_array, 0, 9);
-
-  // printf("### Merge Sort ###\n");
-  // merge_sort(test_array, 0, 9);
-
-  // printf("### Insert Sort ###\n");
-  // heap_sort(test_array, 10);
-
-  // printf("### Shell Sort ###\n");
-  // shell_sort(test_array, 10);
-
-  // radix_sort(test_array, 10);
-  // display_array(test_array, 10);
-
-  return 0;
 }
-
 
