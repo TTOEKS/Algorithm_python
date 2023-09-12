@@ -8,5 +8,5 @@ DELETE_LIST=`find . -type f | grep -vE "\.c|\.sh|\.swp"`
 rm -r ${DELETE_LIST}
 
 echo "Copmile ${LAST_MODI_FILE} to ${DST_FILE}..."
-gcc ../${LAST_MODI_FILE} -o ./${DST_FILE}
+gcc ../${LAST_MODI_FILE} -g -o ./${DST_FILE}
 
