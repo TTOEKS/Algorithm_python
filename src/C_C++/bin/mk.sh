@@ -10,7 +10,7 @@ fi
 LAST_MODI_FILE=`ls -lt ../ |grep "\.c"| tr -s ' ' | head -n1| cut -d " " -f9`
 DST_FILE=`echo ${LAST_MODI_FILE} | cut -d "." -f1`
 
-DELETE_LIST=`find . ! -path . -type d -o -type f -maxdepth 1| grep -vE "\.c|\.sh|\.swp"`
+DELETE_LIST=`find . ! -path . -type d -o -type f -maxdepth 1| grep -vE "\.c|\.sh|\.swp|test"`
 
 for LIST in ${DELETE_LIST}
 do
