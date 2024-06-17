@@ -1,6 +1,7 @@
 #!/bin/bash
 
 DEBUG_MODE=""
+WARN_FLAG="-Wall -Wextra -Wuninitialized"
 
 if [ ${#} -eq 1 ] && [ "${1}" == "-D" ]; then
   DEBUG_MODE="-DDEBUG"
@@ -20,4 +21,5 @@ done
 
 echo "Copmile ${LAST_MODI_FILE} to ${DST_FILE}..."
 
-gcc ../${LAST_MODI_FILE} ${DEBUG_MODE}  -g -o ./${DST_FILE} 
+gcc ../${LAST_MODI_FILE} ${DEBUG_MODE} ${WARN_FLAG}  -g -o ./${DST_FILE} 
+./${DST_FILE}
