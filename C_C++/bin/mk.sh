@@ -21,5 +21,5 @@ done
 
 echo "Copmile ${LAST_MODI_FILE} to ${DST_FILE}..."
 
-gcc ../${LAST_MODI_FILE} ${DEBUG_MODE} ${WARN_FLAG}  -g -o ./${DST_FILE} 
+gcc ../${LAST_MODI_FILE} ${DEBUG_MODE} ${WARN_FLAG} -std=c99  -g -o ./${DST_FILE} 
 ./${DST_FILE}
