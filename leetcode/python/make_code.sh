@@ -30,7 +30,11 @@ function make_header() {
 
 function make_body() {
   echo 'if __name__=="__main__":'
+  echo '\ttestcase = []'
   echo '\tprint("hello world")'
+  echo
+  echo '\tsol = Solution()'
+  echo '\tprint(sol)'
 }
 
 #### MAIN

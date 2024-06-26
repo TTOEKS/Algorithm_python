@@ -9,20 +9,43 @@ import bisect
 import pprint
 from typing import *
 
+"""
+My solution
 class Solution:
     def reorderLogFiles(self, logs: List[str]) -> List[str]:
-        list_len: int = len(logs)
-        dict_logs = {}
+        tmp_str = ""
+        digit_logs = []
+        alpha_logs = []
+        res = []
         
         for log in logs:
-            key = log.split()[0]
-            data = log.split()[0:]
-            dict_logs[key] = data
+            tmp_str = "".join(log.split()[1:])
 
-        sorted(dict_logs.values())
-        print(dict_logs)
+            if tmp_str.isdigit():
+                digit_logs.append(log)
 
-        return []
+            if tmp_str.isalpha():
+                alpha_logs.append(log)
+
+        alpha_logs.sort(key=lambda x:x.split()[1:])
+
+        return alpha_logs + digit_logs
+"""
+
+### WIN~!
+class Solution:
+    def reorderLogFiles(self, logs: List[str]) -> List[str]:
+        letters, digits = [], []
+        for log in logs:
+            if log.split()[1].isdigit():
+                digits.append(log)
+            if log.split()[1].isalpha():
+                letters.append(log)
+
+        letters.sort(key=lambda x:(x.split()[1:], x.split()[0]))
+
+        return letters + digits
+
 
 
 
