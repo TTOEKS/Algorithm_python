@@ -1,75 +1,55 @@
 #include <stdio.h>
+#include <stdbool.h>
 
-int check_leap_year(int year) {
-  int leap_flag = 0;
-  
-  if ((year % 4 == 0) && (year % 100 != 0) || (year % 400 == 0))
-    leap_flag = 1;
+bool is_leap_year(int year) {
+  if ((year % 4 == 0 && year % 100 != 0) || (year % 400) == 0)
+    return true;
 
-  return leap_flag;
+  return false;
 }
 
-int calc_days(int year, int month, int days) {
-  int res = 0;
+int calc_day(int year, int mon, int day) {
+  int i, res = 0;
+  int mon2day[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
-  for (int i=0; i<year; i++) {
+  for (i=0; i<year; i++) {
     res += 365;
-    if (check_leap_year(i))
+    if (is_leap_year(i))
       res++;
   }
 
-  for (int i=1; i<month; i++) {
-    switch (i) {
-      case 1:
-      case 3:
-      case 5:
-      case 7:
-      case 8:
-      case 10:
-      case 12:
-        res += 31;
-        break;
-      case 4:
-      case 6:
-      case 9:
-      case 11:
-        res += 30;
-        break;
-      case 2:
-        if (check_leap_year(year))  {
-          res += 29;
-        }
-        else {
-          res += 28;
-        }
-        break;
-    }
+  for (i=1; i<mon; i++) {
+    res += mon2day[i];
+    if (i == 2 && is_leap_year(year))
+      res++;
   }
 
-  res += days;
+  res += day;
 
   return res;
 }
 
+
 int main()
 {
-  int s_year, s_month, s_days;
-  int d_year, d_month, d_days;
-  int s_res, d_res, res;
+  int s_year, s_month, s_day;
+  int d_year, d_month, d_day;
+  int res = 0;
 
-  scanf("%d %d %d", &s_year, &s_month, &s_days);
-  scanf("%d %d %d", &d_year, &d_month, &d_days);
+  scanf("%d %d %d", &s_year, &s_month, &s_day);
+  scanf("%d %d %d", &d_year, &d_month, &d_day);
 
-  s_res = calc_days(s_year, s_month, s_days);
-  d_res = calc_days(d_year, d_month, d_days);
-
-  res = d_res - s_res;
-
-
-  if (res == 365243) 
+  // if (d_year - s_year >= 1000 && )
+  if (d_year - s_year > 1000)
     printf("gg\n");
-  else 
+  else if (d_year - s_year == 1000 && calc_day(0, s_month, s_day) <= calc_day(0, d_month, d_day)){
+    printf("gg\n");
+  }
+  else {
+    res = calc_day(d_year, d_month, d_day) - calc_day(s_year, s_month, s_day);
+
     printf("D-%d\n", res);
+  }
 
   return 0;
 }
