@@ -48,6 +48,7 @@ if [ "${1#*.}" != "py" ]; then
   echo "This script only support python files"
   echo "You should input file type .py"
   echo "ex) helloworld.py"
+  exit -1
 fi
 
 FILE_NAME="${1}"

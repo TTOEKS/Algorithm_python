@@ -78,5 +78,8 @@ if __name__=="__main__":
     # 더 이상 OrderedDict는 사용이 불필요
     c = collections.OrderedDict({'banana':3, 'apple':4, 'pear':1})
 
-
-
+    # 숫자형 리스트를 단일 값으로 병합
+    a = [1, 2, 3, 4, 5]
+    
+    print("".join(str(e) for e in a))
+    print("".join(map(str, a)))
