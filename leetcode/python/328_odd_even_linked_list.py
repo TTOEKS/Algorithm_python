@@ -16,29 +16,20 @@ class ListNode:
 
 class Solution:
     def oddEvenList(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        evenNodes = []
-        res = odd_head = ListNode(None)
-        cur = head
+        if head is None or head.next is None:
+            return head
 
-        while cur:
-            if cur.val % 2 == 0:
-                evenNodes.append(cur)
-            else:
-                if odd_head:
-                    odd_head.next = cur
-                    odd_head = cur
-                else:
-                    odd_head = cur
+        odd= head
+        even = head.next
+        even_head = head.next
 
-            cur = cur.next
+        while even and even.next:
+            odd.next, even.next = odd.next.next, even.next.next
+            odd, even = odd.next, even.next
 
-        for node in evenNodes:
-            odd_head.next = node
-            odd_head = node
+        odd.next = even_head
 
-        odd_head.next = None
-
-        return res.next
+        return head
 
 if __name__=="__main__":
     testcase = [2,1,3,5,6,4,7]
