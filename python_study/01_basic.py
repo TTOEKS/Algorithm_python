@@ -178,20 +178,20 @@ if __name__=="__main__":
     """
     zip(): zip 함수는 iter 가능한 객체 인자를 받아 원소들을 튜플 형태로 반환
       * 중복되지 않은 튜플 시퀀스를 생성
+    """
 
     a = [1, 2, 3, 4, 5]
     b = ['a', 'b', 'c', 'd']
     c = ['A', 'B', 'C']
     zip(a, b, c)
-    [(1, 'a', 'A'), (2, 'b', 'B'), (3, 'c', 'C')
+    #[(1, 'a', 'A'), (2, 'b', 'B'), (3, 'c', 'C')
 
     a = ['a1', 'a2']
     b = ['b1', 'b2']
     c = ['c1', 'c2']
     d = ['d1', 'd2']
     zip(a, b, c, d)
-    [('a1', 'b1', 'c1', 'd1'), ('a2', 'b2', 'c2', 'd2')
-    """
+    #[('a1', 'b1', 'c1', 'd1'), ('a2', 'b2', 'c2', 'd2')
 
     """
     아스테리스크 (*)
@@ -199,6 +199,7 @@ if __name__=="__main__":
       * 시퀀스 언패킹 연산은 스퀀스를 풀어헤치는 연산자를 뜻함
       * 주로, 튜플이나 리스트를 언패킹하는데 사용
       * (*) 1개는 주로 튜플 또는 리스트 등의 시퀀스 언패킹 / (*) 2개는 키/값 언패킹에 사용
+    """
 
     fruit = ['apple', 'banana', 'melon', 'kiwi']
     for f in fruit:
@@ -207,9 +208,53 @@ if __name__=="__main__":
     print(*fruit)
 
     date_info = {'year':'2020', 'month':'01', 'day':'7'}
-    new_info = {**date_info, 'day';'14'}
-    """
+    new_info = {**date_info, 'day':'14'}
     
+
+    """
+    중첩 함수: 함수 내에 위치한 또 다른 함수
+      * 부모 함수의 변수들을 자유롭게 읽을 수 있음
+      * 자주 사용되지는 않지만, 단일 함수로 문제를 해결해야 하는 곳에서 사용됨
+    """
+
+    # 연산자 조작
+    def outer_func(a: List[int]):
+        b: List[int] = a
+        print(id(b), b)
+
+        def inner_func_1():
+            b.append(4)
+            print(id(b), b)
+
+        def inner_func_2():
+            print(id(b), b)
+
+        inner_func_1()
+        inner_func_2()
+
+    outer_func([1, 2, 3])
+    # Result: All function call's varible ID is same
+
+    # 재할당
+    def outer_func_realloc(t: str):
+        text: str = t
+        print(id(text), text)
+
+        def inner_func_realloc_1():
+            text = 'world'
+            print(id(text), text)
+
+        def inner_func_realloc_2():
+            print(id(text), text)
+
+        inner_func_realloc_1()
+        inner_func_realloc_2()
+
+    outer_func_realloc("Hello!")
+    # Result: 오직 inner_func_realloc_1 함수에서만 text 값이 변하고, id도 다른 변수가 됨
+    # (=) 연산자로 변수를 새롭게 할ㄷ아하는 경우, ID 값이 변경되어 서로 다른 변수가 됨
+    # 자식 함수에서 재할당한 변수는 로컬변수가 되어 부모변수까지 반영 안됨
+
 
 
     

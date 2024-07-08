@@ -47,7 +47,7 @@ NP는 비결정론적 튜링 기계 (NTM)로 다항시간 안에 풀수 있는 �
 그래프 탐색이라고도 불리며, 그래프의 각 정점을 방문하는 과정을 의미한다.
   * 그래프의 각 정점을 방문하는 Traverlling에는 아래 2가지 알고리즘이 존재함
     * 깊이 우선 탐색 (DFS: Depth-First Search)
-      * 스택이나 재귀로 구현
+      * 스택이나 재귀로 구현 (재귀가 더 간단하게 구현 가능)
       * BackTracking 에서 좋은 성능을 보임
     * 너비 우선 탐색 (BFS: Breadth-First Search)
       * 큐로 구현
@@ -56,6 +56,59 @@ NP는 비결정론적 튜링 기계 (NTM)로 다항시간 안에 풀수 있는 �
   * 그래프 표현 방법
     * 인접 행렬 (Adjacency Matrix)
     * 인접 리스트 (Adjacnecy List)
-
+"""
 
 """
+백 트래킹 (backTracking)
+해결책에 대한 후보를 구축해 나아가다 가능성이 없다고 판단되는 즉시 후보를 포기(Backtrack)해 정답을 찾아감
+  * 범용적인 알고리즘 중 하나로 제약 충족 문제 (Constraint Satifaction problem)에 유용
+  * 즉, 탐색하다 더 갈 수 없으면 왔던 길을 되돌아가 다른 길을 찾는 것
+  * 백 트래킹은 주로 재귀함수로 구현
+  * 알고리즘마다 DFS 변형이 있지만, 모두 DFS 범주에 속함
+  * 최악의 경우 모든 경우의 수를 봐야한다는 단점이 있음
+  * 탐색 중 가능성이 없는 경우 포기한다는 점에서 더 효율적임
+
+제약 충족 문제 (Constraint Satisfaction Problems, CSP)
+수 많은 제약을 충족하는 상태를 찾아내는 수학적인 문제를 일컫는다.
+  * 인공지능, 경영과학 분야에서 심도 있게 연구가 진행 되고 있음
+  * 대표적인 제약 충족 문제는: 스도쿠가 있음
+  * 이러한 다양한 제약 조건을 충족하기 위해 가지치기를 통해 최적화 하는 것이 좋음
+  * 백 트래킹 기법이 유용하게 사용되는 경우도 이러한 경우 
+"""
+
+def recursive_dfs(v, discovered = []):
+    discovered.append(v)
+    for w in graph[v]:
+        discovered = recursive_dfs(w, discovered)
+    return discovered
+
+def iterative_dfs(start_v):
+    discovered = []
+    stack = [start_v]
+
+    while stack:
+        v = stack.pop()
+        if v not in discovered:
+            discovered.append(v)
+            for w in graph[v]:
+                stack.append(w)
+    return discovered
+
+def iterative_bfs(start_v):
+    discovered = [start_v]
+    queue = [start_v]
+    while queue:
+        v = queue.pop(0)
+        for w in graph[v]:
+            if w not in discovered:
+                discovered.append(w)
+                queue.append(w)
+
+    return discovered
+
+if __name__=="__main__":
+    print("Hello world")
+
+
+
+
