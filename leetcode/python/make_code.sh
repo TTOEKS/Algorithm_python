@@ -1,5 +1,7 @@
 #!/bin/zsh
 
+DIR_NAME="./Trie/"
+
 MODULE_FILES=(
 "collections"
 "heapq"
@@ -51,7 +53,7 @@ if [ "${1#*.}" != "py" ]; then
   exit -1
 fi
 
-FILE_NAME="${1}"
+FILE_NAME="${DIR_NAME}${1}"
 cat /dev/null > ${FILE_NAME}
 make_header >> ${FILE_NAME}
 echo >> ${FILE_NAME}

@@ -76,6 +76,16 @@ NP는 비결정론적 튜링 기계 (NTM)로 다항시간 안에 풀수 있는 �
   * 백 트래킹 기법이 유용하게 사용되는 경우도 이러한 경우 
 """
 
+graph = { 
+    1:[2,3,4],
+    2:[5],
+    3:[5],
+    4:[],
+    5:[6,7],
+    6:[],
+    7:[3]
+}
+
 def recursive_dfs(v, discovered = []):
     discovered.append(v)
     for w in graph[v]:

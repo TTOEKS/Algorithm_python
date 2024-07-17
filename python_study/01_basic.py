@@ -8,6 +8,7 @@ import sys
 import math
 import bisect
 import pprint
+import copy
 from typing import *
 
 """
@@ -254,6 +255,28 @@ if __name__=="__main__":
     # Result: 오직 inner_func_realloc_1 함수에서만 text 값이 변하고, id도 다른 변수가 됨
     # (=) 연산자로 변수를 새롭게 할ㄷ아하는 경우, ID 값이 변경되어 서로 다른 변수가 됨
     # 자식 함수에서 재할당한 변수는 로컬변수가 되어 부모변수까지 반영 안됨
+    # list 혹은 dictionary의 경우 append() 메소드를 통해 재할당 없이 조작 가능
+    # 숫자, 문자 자료형과 같은 불변 객체의 경우 재할당이 발생해 중첩함수 내에서 변경 불가
+
+
+    # 객체 복사
+    """ 
+    파이썬의 중요한 특징 중하나는 모든 것이 객체라는 점이다.
+      * 숫자, 문자 까지도 모두 객체이고, 딕셔너리, 리스트와 차이점은 불변 객체라는 점
+      * 별도로 값을 복사하지 않는 한, 변수에 값을 할당하는 것은 값 객체를 참조하는 것
+    """
+
+    copy_a = [1, 2, 3]
+    b = a
+    c = a[:]
+    d = a.copy()
+    print(id(a), id(b), id(c), id(d))
+    # a와 b는 같은 객체를 참조, c와 d는 다른 객체
+    # 중첩 리스트를 복사하기 위해서는 deepcopy()를 사용해야 함
+
+    multi_list_copy_a = [1, 2, [3, 5], 4]
+    b = copy.deepcopy(a)
+    print(id(a), id(b), b)
 
 
 
