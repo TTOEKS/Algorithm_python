@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-DIR_NAME="./Trie/"
+DIR_NAME="./SlidingWindow/"
 
 MODULE_FILES=(
 "collections"

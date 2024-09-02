@@ -48,15 +48,13 @@ class Solution:
                         res.append([j, i])
 
         return res
-"""
-
 
 # Solved by Trie (so hard...)
 class TrieNode:
     def __init__(self):
-        self.children = collections.defaultdict(TrieNode)
-        self.word_id = -1
         self.palindrome_word_ids = []
+        self.word_id = -1
+        self.children = collections.defaultdict(TrieNode)
 
 
 class Trie:
@@ -72,21 +70,19 @@ class Trie:
     def insert(self, index: int, word: str):
         node = self.root
         for i, char in enumerate(reversed(word)):
-            if self.is_palindrome(word[0:len(word) - i]):
+            if self.is_palindrome(word[:len(word) - i]):
                 node.palindrome_word_ids.append(index)
+
             node = node.children[char]
-            node.val = char
         node.word_id = index
 
     def search(self, index, word):
-        result = []
         node = self.root
+        result = []
 
         while word:
             # Check Logic #3
-            """
-            탐색 중간에 word_id가 있고, 나머지 문자가 팰린드롬인 경우
-            """
+            # 탐색 중간에 word_id가 있고, 나머지 문자가 팰린드롬인 경우
             if node.word_id >= 0:
                 if self.is_palindrome(word):
                     result.append([index, node.word_id])
@@ -95,23 +91,18 @@ class Trie:
             node = node.children[word[0]]
             word = word[1:]
 
+
         # Check logic #1
-        """
-        끝까지 탐새 했을 때 word_id가 있는 경우
-        """
+        # 끝까지 탐새 했을 때 word_id가 있는 경우
         if node.word_id >= 0 and node.word_id != index:
             result.append([index, node.word_id])
 
 
         # Check logic #2
-        """
-        끝까지 탐색 했을 때 Palindrome_word_ids가 있는 경우
-        """
-        print(node.palindrome_word_ids)
+        # 끝까지 탐색 했을 때 Palindrome_word_ids가 있는 경우
         for palindrome_word_id in node.palindrome_word_ids:
             result.append([index, palindrome_word_id])
 
-        print(115)
         return result
 
 class Solution:
@@ -122,19 +113,43 @@ class Solution:
             trie.insert(i, word)
 
         results = []
-        for i, word, in enumerate(word):
-            tmp = trie.search(i, word)
-
+        for i, word, in enumerate(words):
             results.extend(trie.search(i, word))
 
         return results
 
+"""
+
+# Best Solution
+class Solution:
+    def palindromePairs(self, words: List[str]) -> List[List[int]]:
+        backward, res = {}, []
+        for i, word in enumerate(words):
+            backward[word[::-1]] = i
+
+        print(backward)
+        for i, word in enumerate(words):
+            if word in backward and backward[word] != i:
+                res.append([i, backward[word]])
+                
+            if word != "" and "" in backward and word == word[::-1]:
+                res.append([i, backward[""]])
+                res.append([backward[""], i])
+                
+            for j in range(len(word)):
+                if word[j:] in backward and word[:j] == word[j-1::-1]:
+                    res.append([backward[word[j:]], i])
+                if word[:j] in backward and word[j:] == word[:j-1:-1]:
+                    res.append([i, backward[word[:j]]])
+                    
+        return res
 
 
 
 if __name__=="__main__":
-    testcase = ["abcd","dcba","lls","s","sssll"]
+    # testcase = ["abcd","dcba","lls","s","sssll"]
     # testcase = ["a",""]
+    testcase = ["abcd","dcba","lls","s","sssll"]
     print("hello world")
 
     sol = Solution()

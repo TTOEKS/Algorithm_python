@@ -25,6 +25,31 @@ Google python style guide (google.github.io/styleguide/pyguide.com)
 
 
 """
+# @staticmethod 데코레이터
+"""
+JAVA의 애노테이션 (Annotation)이라 불리는 것과 유사한 문자로 특히 static 선언과 유사하다
+위 데코레이터가 정의된 메소드는 클래스와 독립적으로 함수로서 의미를 강하게 갖는다
+즉, 클래스의 메소드가 아니라 독립된 함수의 의미를 가진다
+-> 클래스 메소드처럼 자유롭게 클래스 인스턴스에 접근하는 것이 제한됨
+"""
+class CLASS:
+    def a(self):
+        pass
+
+    @staticmethod
+    def b():
+        pass
+
+"""
+type(CLASS.a) -> function
+type(CLASS.b) -> function
+
+cls = CLASS()
+type(cls.a) -> method
+type(cls.b) -> function
+"""
+
+
 # PASS: 아무런 동작 안함 (인터페이스 목업에서 사용 가능)
 class MyClass(object):
     def method_a(self):
@@ -278,7 +303,29 @@ if __name__=="__main__":
     b = copy.deepcopy(a)
     print(id(a), id(b), b)
 
+    # (,) 콤마 연산자
+    a = [1]
+    b = [2, 3]
+    a += b
+    # a = [1, 2, 3]
+    a += b,
+    # a = [1, [2, 3]]
+
+    # 재귀 제한
+    """
+    파이썬에는 재귀 호출에 대한 호출 횟수 제한이 있으며, 기본 값은 1,000으로 설정되어 있음
+    sys.getrecursionlimit() -> 1000
+    """
+
+    # 속도 테스트
+    """
+    timeit -n 10000 bisect.bisect_left(a, 5)
+    timeit -n 10000 a.index(5)
+    """
 
 
-    
-    
+    # any(), all() 함수
+    """
+    any() 함수는 포함된 값 중 어느 하나가 참이라면 항상 참을 출력 (OR)
+    all() 함수는 모든 값이 참이어야 True를 출력 (AND)
+    """

@@ -18,6 +18,7 @@ python의 Pirority Queue 자료형
   * 두 자료 간 차이점은 Thread-Safe를 지원하는가 아닌가 임
     * heapq 모듈은 Thread-Safe 보장을 하지 않음
     * PriorityQueue 모듈은 Thread-Safe를 보장
+  # heapq의 heappush(list, items) 인데 itmes 인자에 여러 값이 (data1, data2, ..) 처럼 튜플로 입력된 경우 첫번째 인자 (data1)을 기준으로 정렬한다. *
 
 Thread-Safe
   * 멑리 스레드에서도 안전한 동작을 보장하는 가?
