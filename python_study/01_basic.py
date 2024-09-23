@@ -321,6 +321,14 @@ if __name__=="__main__":
     """
     timeit -n 10000 bisect.bisect_left(a, 5)
     timeit -n 10000 a.index(5)
+
+
+    # 찾아낸 값의 인덱스를 반환
+    bisect.bisect_left([list], key)
+
+    # 찾아낸 값의 다음 인덱스를 반환
+    bisect.bisect_right([list], key)
+
     """
 
 

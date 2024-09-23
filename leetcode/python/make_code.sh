@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-DIR_NAME="./SlidingWindow/"
+DIR_NAME="./Dynamic_Programming/"
 
 MODULE_FILES=(
 "collections"
@@ -35,6 +35,7 @@ function make_body() {
   echo '\ttestcase = []'
   echo '\tprint("hello world")'
   echo
+  echo '\t# print("testcase: ", testcase)'
   echo '\tsol = Solution()'
   echo '\tprint(sol)'
 }
